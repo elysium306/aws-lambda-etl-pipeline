@@ -1,0 +1,15 @@
+# package files
+__pycache__/
+
+# venv files.venv/
+.env
+.env.*
+
+# ide config files
+.vscode/
+.idea/
+.DS_Store
+
+# test output
+tests/__pycache__/
+data/

@@ -1,27 +1,32 @@
 from __future__ import annotations
-from typing import Any, Dict
-from src.etl import transform_orders
-from src.db import write_results_to_sqlite
+import sqlite3
+from pathlib import Path
+from typing import List, Dict, Any
 
-def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
-    """
-    Expected event shape:
-    {
-      "orders": [
-        {"order_id": "A1", "amount": 100, "status": "PAID"},
-        ...
-      ]
-    }
-    """
-    orders = event.get("orders", [])
-    results = transform_orders(orders)
-    written = write_results_to_sqlite(results)
+def write_results_to_sqlite(results: List[Dict[str, Any]], db_path: str = "data/results.sqlite") -> int:
+    Path(db_path).parent.mkdir(parents=True, exist_ok=True)
 
-    return {
-        "statusCode": 200,
-        "body": {
-            "input_count": len(orders),
-            "output_count": len(results),
-            "rows_written": written
-        }
-    }
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS transformed_orders (
+            order_id TEXT,
+            amount REAL,
+            tax REAL,
+            total REAL
+        );
+    """)
+    cur.execute("DELETE FROM transformed_orders;")
+
+    cur.executemany(
+        "INSERT INTO transformed_orders (order_id, amount, tax, total) VALUES (?, ?, ?, ?);",
+        [(r["order_id"], r["amount"], r["tax"], r["total"]) for r in results]
+    )
+
+    con.commit()
+    cur.execute("SELECT COUNT(*) FROM transformed_orders;")
+    count = cur.fetchone()[0]
+    con.close()
+
+    return int(count)

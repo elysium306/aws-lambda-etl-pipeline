@@ -37,3 +37,13 @@ Initial working version. Improvements and optimizations in progress.
 -   [ ] Add structured input/output schemas
 -   [ ] Expand transformation logic
 -   [ ] Improve test coverage
+
+## How to Run Locally
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python -m pytest -q
+python scripts/run_local.py
+```
