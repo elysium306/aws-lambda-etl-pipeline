@@ -1,9 +1,13 @@
 # package files
 __pycache__/
+*/__pycache__
+*.py[cod]
+.pytest_cache/
 
 # venv files.venv/
 .env
 .env.*
+.venv/
 
 # ide config files
 .vscode/
