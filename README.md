@@ -43,9 +43,6 @@ python scripts/run_local.py
 
 ---
 
-### 7)
-
-```md
 ## Status
 
 Initial working version with core ETL functionality in place.
