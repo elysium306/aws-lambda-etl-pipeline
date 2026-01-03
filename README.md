@@ -53,3 +53,12 @@ Further enhancements are planned to expand realism and robustness.
 -   [ ] Expand transformation scenarios and edge cases
 -   [ ] Improve test coverage
 -   [ ] Add optional cloud integration tests (API Gateway / Lambda endpoint)
+
+## AWS DVA-C02 Hands-on Mapping (Planned)
+- Lambda handler patterns (input validation, structured logging)
+- IAM least-privilege execution role (design notes)
+- CloudWatch logs/metrics mindset (correlation IDs, error categories)
+- API Gateway integration pattern (future integration tests)
+- Retry/error handling patterns for serverless workflows
+
+
